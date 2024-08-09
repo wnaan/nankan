@@ -5,32 +5,30 @@
 <title>七夕快乐</title>
 
 <!-- 内嵌 CSS -->
-<style type="text/css">
+<style>
 body {
     font-family: Arial, sans-serif;
     background: #fff;
     color: #333;
     margin: 0;
     padding: 0;
-}
-
-#main {
     text-align: center;
 }
 
-#wrap {
-    display: inline-block;
-    margin: 20px;
+#main {
+    margin: 20px auto;
+    max-width: 1100px;
 }
 
-#code {
+#text {
     font-size: 18px;
     line-height: 1.6;
+    margin-bottom: 20px;
 }
 
 #clock-box {
     font-size: 24px;
-    margin-top: 20px;
+    margin: 20px 0;
 }
 
 .STYLE1 {
@@ -40,17 +38,89 @@ body {
 canvas {
     border: 1px solid #000;
 }
+
+#code {
+    display: none;
+}
 </style>
 
-<!-- 引入 jQuery -->
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<!-- 引入 Jscex 库 -->
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jscex/0.3.1/jscex.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jscex/0.3.1/jscex-parser.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jscex/0.3.1/jscex-jit.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jscex/0.3.1/jscex-builderbase.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jscex/0.3.1/jscex-async.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jscex/0.3.1/jscex-async-powerpack.min.js"></script>
+<!-- 引入 jQuery 和 Jscex -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jscex/0.3.1/jscex.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jscex/0.3.1/jscex-parser.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jscex/0.3.1/jscex-jit.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jscex/0.3.1/jscex-builderbase.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jscex/0.3.1/jscex-async.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jscex/0.3.1/jscex-async-powerpack.min.js"></script>
+
+<!-- 内嵌 JavaScript -->
+<script>
+$(document).ready(function() {
+    function updateTime() {
+        var startDate = new Date("2023-12-09T00:00:00"); // 相识日期
+        var now = new Date();
+        var diff = now - startDate;
+
+        var days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        var hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+        $("#time-count").text(`${days}天 ${hours}小时 ${minutes}分钟 ${seconds}秒`);
+    }
+
+    updateTime(); // 初始化显示
+
+    setInterval(updateTime, 1000); // 每秒更新时间
+
+    var canvas = $('#canvas');
+
+    if (!canvas[0].getContext) {
+        $("#error").show();
+        return false;
+    }
+
+    var width = canvas.width();
+    var height = canvas.height();
+
+    canvas.attr("width", width);
+    canvas.attr("height", height);
+
+    // 简化的树形动画示例
+    function drawTree(ctx, t) {
+        ctx.clearRect(0, 0, width, height);
+        ctx.save();
+        ctx.translate(width / 2, height);
+        ctx.rotate(t);
+        ctx.beginPath();
+        ctx.moveTo(0, 0);
+        ctx.lineTo(0, -100);
+        ctx.strokeStyle = 'green';
+        ctx.lineWidth = 5;
+        ctx.stroke();
+        ctx.restore();
+    }
+
+    var ctx = canvas[0].getContext('2d');
+    var angle = 0;
+
+    function animateTree() {
+        var interval = setInterval(function() {
+            angle += 0.05;
+            drawTree(ctx, angle);
+            if (angle > Math.PI * 2) {
+                clearInterval(interval);
+            }
+        }, 30);
+    }
+
+    animateTree();
+
+    // 代码和时钟的显示
+    $("#code").show();
+    $("#clock-box").fadeIn(500);
+});
+</script>
 </head>
 <body>
 
@@ -78,167 +148,5 @@ canvas {
     </div>
 </div>
 
-<script>
-$(document).ready(function() {
-    function updateTime() {
-        var startDate = new Date("2023-12-09T00:00:00"); // 相识日期
-        var now = new Date();
-        var diff = now - startDate;
-
-        var days = Math.floor(diff / (1000 * 60 * 60 * 24));
-        var hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        var minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-        var seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-        $("#time-count").html(`${days}天 ${hours}小时 ${minutes}分钟 ${seconds}秒`);
-    }
-
-    updateTime(); // 初始化显示
-
-    setInterval(updateTime, 1000); // 每秒更新时间
-
-    var canvas = $('#canvas');
-
-    if (!canvas[0].getContext) {
-        $("#error").show();
-        return false;
-    }
-
-    var width = canvas.width();
-    var height = canvas.height();
-
-    canvas.attr("width", width);
-    canvas.attr("height", height);
-
-    var opts = {
-        seed: {
-            x: width / 2 - 20,
-            color: "rgb(190, 26, 37)",
-            scale: 2
-        },
-        branch: [
-            [535, 680, 570, 250, 500, 200, 30, 100, [
-                [540, 500, 455, 417, 340, 400, 13, 100, [
-                    [450, 435, 434, 430, 394, 395, 2, 40]
-                ]],
-                [550, 445, 600, 356, 680, 345, 12, 100, [
-                    [578, 400, 648, 409, 661, 426, 3, 80]
-                ]],
-                [539, 281, 537, 248, 534, 217, 3, 40],
-                [546, 397, 413, 247, 328, 244, 9, 80, [
-                    [427, 286, 383, 253, 371, 205, 2, 40],
-                    [498, 345, 435, 315, 395, 330, 4, 60]
-                ]],
-                [546, 357, 608, 252, 678, 221, 6, 100, [
-                    [590, 293, 646, 277, 648, 271, 2, 80]
-                ]]
-            ]] 
-        ],
-        bloom: {
-            num: 700,
-            width: 1080,
-            height: 650,
-        },
-        footer: {
-            width: 1200,
-            height: 5,
-            speed: 10,
-        }
-    }
-
-    var tree = new Tree(canvas[0], width, height, opts);
-    var seed = tree.seed;
-    var foot = tree.footer;
-    var hold = 1;
-
-    canvas.click(function(e) {
-        var offset = canvas.offset(), x, y;
-        x = e.pageX - offset.left;
-        y = e.pageY - offset.top;
-        if (seed.hover(x, y)) {
-            hold = 0; 
-            canvas.unbind("click");
-            canvas.unbind("mousemove");
-            canvas.removeClass('hand');
-        }
-    }).mousemove(function(e){
-        var offset = canvas.offset(), x, y;
-        x = e.pageX - offset.left;
-        y = e.pageY - offset.top;
-        canvas.toggleClass('hand', seed.hover(x, y));
-    });
-
-    var seedAnimate = eval(Jscex.compile("async", function () {
-        seed.draw();
-        while (hold) {
-            $await(Jscex.Async.sleep(10));
-        }
-        while (seed.canScale()) {
-            seed.scale(0.95);
-            $await(Jscex.Async.sleep(10));
-        }
-        while (seed.canMove()) {
-            seed.move(0, 2);
-            foot.draw();
-            $await(Jscex.Async.sleep(10));
-        }
-    }));
-
-    var growAnimate = eval(Jscex.compile("async", function () {
-        do {
-            tree.grow();
-            $await(Jscex.Async.sleep(10));
-        } while (tree.canGrow());
-    }));
-
-    var flowAnimate = eval(Jscex.compile("async", function () {
-        do {
-            tree.flower(2);
-            $await(Jscex.Async.sleep(10));
-        } while (tree.canFlower());
-    }));
-
-    var moveAnimate = eval(Jscex.compile("async", function () {
-        tree.snapshot("p1", 240, 0, 610, 680);
-        while (tree.move("p1", 500, 0)) {
-            foot.draw();
-            $await(Jscex.Async.sleep(10));
-        }
-        foot.draw();
-        tree.snapshot("p2", 500, 0, 610, 680);
-
-        canvas.parent().css("background", "url(" + tree.toDataURL('image/png') + ")");
-        canvas.css("background", "#ffe");
-        $await(Jscex.Async.sleep(300));
-        canvas.css("background", "none");
-    }));
-
-    var jumpAnimate = eval(Jscex.compile("async", function () {
-        var ctx = tree.ctx;
-        while (true) {
-            tree.ctx.clearRect(0, 0, width, height);
-            tree.jump();
-            foot.draw();
-            $await(Jscex.Async.sleep(25));
-        }
-    }));
-
-    var textAnimate = eval(Jscex.compile("async", function () {
-        $("#code").show();
-        $("#clock-box").fadeIn(500);
-    }));
-
-    var runAsync = eval(Jscex.compile("async", function () {
-        $await(seedAnimate());
-        $await(growAnimate());
-        $await(flowAnimate());
-        $await(moveAnimate());
-        textAnimate().start();
-        $await(jumpAnimate());
-    }));
-
-    runAsync().start();
-});
-</script>
 </body>
 </html>
