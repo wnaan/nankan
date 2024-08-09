@@ -4,28 +4,58 @@
 <meta charset="UTF-8">
 <title>七夕快乐</title>
 
-<!-- 引入本地 CSS 文件 -->
-<link type="text/css" rel="stylesheet" href="css/default.css">
-
-<!-- 引入本地 JavaScript 文件 -->
-<script type="text/javascript" src="js/jquery.min.js"></script>
-<script type="text/javascript" src="js/jscex.min.js"></script>
-<script type="text/javascript" src="js/jscex-parser.js"></script>
-<script type="text/javascript" src="js/jscex-jit.js"></script>
-<script type="text/javascript" src="js/jscex-builderbase.min.js"></script>
-<script type="text/javascript" src="js/jscex-async.min.js"></script>
-<script type="text/javascript" src="js/jscex-async-powerpack.min.js"></script>
-<script type="text/javascript" src="js/functions.js" charset="utf-8"></script>
-<script type="text/javascript" src="js/love.js" charset="utf-8"></script>
-
+<!-- 内嵌 CSS -->
 <style type="text/css">
-.STYLE1 {color: #666666}
+body {
+    font-family: Arial, sans-serif;
+    background: #fff;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+#main {
+    text-align: center;
+}
+
+#wrap {
+    display: inline-block;
+    margin: 20px;
+}
+
+#code {
+    font-size: 18px;
+    line-height: 1.6;
+}
+
+#clock-box {
+    font-size: 24px;
+    margin-top: 20px;
+}
+
+.STYLE1 {
+    color: #666666;
+}
+
+canvas {
+    border: 1px solid #000;
+}
 </style>
+
+<!-- 引入 jQuery -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<!-- 引入 Jscex 库 -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jscex/0.3.1/jscex.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jscex/0.3.1/jscex-parser.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jscex/0.3.1/jscex-jit.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jscex/0.3.1/jscex-builderbase.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jscex/0.3.1/jscex-async.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jscex/0.3.1/jscex-async-powerpack.min.js"></script>
 </head>
 <body>
 
 <!-- 嵌入网易云音乐播放器 -->
-<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=2123074057&auto=1&height=66"></iframe>
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="https://music.163.com/outchain/player?type=2&id=2123074057&auto=1&height=66"></iframe>
 
 <div id="main">
     <div id="error" style="display:none;">
@@ -194,7 +224,7 @@ $(document).ready(function() {
     }));
 
     var textAnimate = eval(Jscex.compile("async", function () {
-        $("#code").show().typewriter();
+        $("#code").show();
         $("#clock-box").fadeIn(500);
     }));
 
