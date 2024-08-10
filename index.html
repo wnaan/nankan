@@ -1,152 +1,105 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
-<meta charset="UTF-8">
-<title>七夕快乐</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>七夕快乐</title>
+    <style>
+        body {
+            font-family: "Microsoft YaHei", Arial, sans-serif;
+            text-align: center;
+            background-color: #fff;
+            margin: 0;
+            padding: 0;
+        }
 
-<!-- 内嵌 CSS -->
-<style>
-body {
-    font-family: Arial, sans-serif;
-    background: #fff;
-    color: #333;
-    margin: 0;
-    padding: 0;
-    text-align: center;
-}
+        #main {
+            padding: 20px;
+        }
 
-#main {
-    margin: 20px auto;
-    max-width: 1100px;
-}
+        .say {
+            color: #666;
+            font-size: 18px;
+            line-height: 1.6;
+            text-align: left;
+            margin: 0 auto;
+            max-width: 600px;
+        }
 
-#text {
-    font-size: 18px;
-    line-height: 1.6;
-    margin-bottom: 20px;
-}
+        #clock-box {
+            margin-top: 30px;
+        }
 
-#clock-box {
-    font-size: 24px;
-    margin: 20px 0;
-}
+        #clock {
+            font-size: 24px;
+            color: #333;
+        }
 
-.STYLE1 {
-    color: #666666;
-}
-
-canvas {
-    border: 1px solid #000;
-}
-
-#code {
-    display: none;
-}
-</style>
-
-<!-- 引入 jQuery 和 Jscex -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jscex/0.3.1/jscex.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jscex/0.3.1/jscex-parser.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jscex/0.3.1/jscex-jit.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jscex/0.3.1/jscex-builderbase.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jscex/0.3.1/jscex-async.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jscex/0.3.1/jscex-async-powerpack.min.js"></script>
-
-<!-- 内嵌 JavaScript -->
-<script>
-$(document).ready(function() {
-    function updateTime() {
-        var startDate = new Date("2023-12-09T00:00:00"); // 相识日期
-        var now = new Date();
-        var diff = now - startDate;
-
-        var days = Math.floor(diff / (1000 * 60 * 60 * 24));
-        var hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        var minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-        var seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-        $("#time-count").text(`${days}天 ${hours}小时 ${minutes}分钟 ${seconds}秒`);
-    }
-
-    updateTime(); // 初始化显示
-
-    setInterval(updateTime, 1000); // 每秒更新时间
-
-    var canvas = $('#canvas');
-
-    if (!canvas[0].getContext) {
-        $("#error").show();
-        return false;
-    }
-
-    var width = canvas.width();
-    var height = canvas.height();
-
-    canvas.attr("width", width);
-    canvas.attr("height", height);
-
-    // 简化的树形动画示例
-    function drawTree(ctx, t) {
-        ctx.clearRect(0, 0, width, height);
-        ctx.save();
-        ctx.translate(width / 2, height);
-        ctx.rotate(t);
-        ctx.beginPath();
-        ctx.moveTo(0, 0);
-        ctx.lineTo(0, -100);
-        ctx.strokeStyle = 'green';
-        ctx.lineWidth = 5;
-        ctx.stroke();
-        ctx.restore();
-    }
-
-    var ctx = canvas[0].getContext('2d');
-    var angle = 0;
-
-    function animateTree() {
-        var interval = setInterval(function() {
-            angle += 0.05;
-            drawTree(ctx, angle);
-            if (angle > Math.PI * 2) {
-                clearInterval(interval);
-            }
-        }, 30);
-    }
-
-    animateTree();
-
-    // 代码和时钟的显示
-    $("#code").show();
-    $("#clock-box").fadeIn(500);
-});
-</script>
+        /* 示例嵌入动画的样式 */
+        .animation-container {
+            margin: 20px auto;
+            max-width: 500px;
+        }
+    </style>
 </head>
+
 <body>
+    <div id="main">
+        <audio autoplay loop>
+            <source src="your-audio-file.mp3" type="audio/mp3" />
+            您的浏览器不支持音频元素，请更换现代浏览器。
+        </audio>
 
-<!-- 嵌入网易云音乐播放器 -->
-<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="https://music.163.com/outchain/player?type=2&id=2123074057&auto=1&height=66"></iframe>
-
-<div id="main">
-    <div id="error" style="display:none;">
-        本页面采用HTML5编辑，目前您的浏览器无法显示，请换成谷歌(<a href="http://www.google.cn/chrome/intl/zh-CN/landing_chrome.html?hl=zh-CN&brand=CHMI">Chrome</a>)或者火狐(<a href="http://firefox.com.cn/download/">Firefox</a>)浏览器，或者其他游览器的最新版本。
-    </div>
-    <div id="wrap">
-        <div id="text">
-            <div id="code">
-                <span class="say">亲爱的徐小娜：</span><br>
-                <span class="say"> </span><br>
-                <span class="say">　　从八月初我就开始想，七夕节送什么给你。给你买东西呢，又太千篇一律了，所以我打算送点特别的。我又没啥技能，手工就更不用说了，简直就是一塌糊涂。我就想着送你一个永恒、具有意义的东西，那么这个网页就诞生了。
-数字化的永恒纪念，代表作让我依旧喜欢你、保护你、爱护你。 七夕节的星空下，我将心底最真挚的感情告诉你，将所有的温柔都留给你。每次看到你的时候，总是莫名的高兴开心，我的世界就像被点亮了一样，充满了温暖和希望。喜欢你的一颦一笑、想念你的每分每秒，咱们这个数字纪念刚刚好。 没别的意思，就是接着特殊日子说声喜欢你。愿我们的未来充满爱与幸福，共同走过每一个美好的日子。</span><br>
-                <span class="say"><span class="space"></span> -- 陆小亮 --</span>
+        <div id="wrap">
+            <div id="text">
+                <div id="code">
+                    <p class="say">亲爱的徐小娜：</p>
+                    <p class="say">从八月初我就开始想，七夕节送什么给你。给你买东西呢，又太千篇一律了，所以我打算送点特别的。我又没啥技能，手工就更不用说了，简直就是一塌糊涂。我就想着送你一个永恒、具有意义的东西，那么这个网页就诞生了。数字化的永恒纪念，代表作让我依旧喜欢你、保护你、爱护你。七夕节的星空下，我将心底最真挚的感情告诉你，将所有的温柔都留给你。每次看到你的时候，总是莫名的高兴开心，我的世界就像被点亮了一样，充满了温暖和希望。喜欢你的一颦一笑、想念你的每分每秒，咱们这个数字纪念刚刚好。没别的意思，就是接着特殊日子说声喜欢你。愿我们的未来充满爱与幸福，共同走过每一个美好的日子。</p>
+                    <p class="say"><span class="space"></span> -- 陆小亮 --</p>
+                </div>
             </div>
-        </div>
-        <div id="clock-box">
-            陆小亮<span class="STYLE1"> 与 </span>宝贝 <span class="STYLE1">已经相识了</span> <span id="time-count">计算中...</span>
-        </div>
-        <canvas id="canvas" width="1100" height="680"></canvas>
-    </div>
-</div>
 
+            <div id="clock-box">
+                陆小亮 <span class="say"> 与 </span> 宝贝 <span class="say">已经相识了</span>
+                <div id="clock"></div>
+            </div>
+
+            <!-- 示例嵌入动画，替换成实际的GIF或SVG -->
+            <div class="animation-container">
+                <img src="your-animation.gif" alt="Animation">
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function timeElapse(together) {
+            var current = new Date();
+            var seconds = (Date.parse(current) - Date.parse(together)) / 1000;
+            var days = Math.floor(seconds / (3600 * 24));
+            seconds = seconds % (3600 * 24);
+            var hours = Math.floor(seconds / 3600);
+            seconds = seconds % 3600;
+            var minutes = Math.floor(seconds / 60);
+            seconds = seconds % 60;
+            var result = "<span class='digit'>" + days + "</span> 天 <span class='digit'>" + hours + "</span> 小时 <span class='digit'>" + minutes + "</span> 分钟 <span class='digit'>" + seconds + "</span> 秒";
+            document.getElementById("clock").innerHTML = result;
+        }
+
+        (function () {
+            var together = new Date();
+            together.setFullYear(2023, 12, 09);
+            together.setHours(0);
+            together.setMinutes(0);
+            together.setSeconds(0);
+            together.setMilliseconds(2);
+
+            setInterval(function () {
+                timeElapse(together);
+            }, 1000);
+        })();
+    </script>
 </body>
+
 </html>
